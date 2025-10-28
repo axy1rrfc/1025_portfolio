@@ -88,11 +88,11 @@ export function ProjectsPreview() {
 
   if (loading) {
     return (
-      <section className="py-20 bg-white dark:bg-gray-900">
+      <section className="py-20 bg-transparent pointer-events-auto">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Featured <span className="text-gradient">Projects</span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-gradient">Projects</span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               Explore my latest work from GitHub, showcasing real-world applications and innovative solutions
@@ -100,7 +100,7 @@ export function ProjectsPreview() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 animate-pulse">
+              <div key={i} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 animate-pulse">
                 <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded-lg mb-4"></div>
                 <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
                 <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
@@ -117,11 +117,11 @@ export function ProjectsPreview() {
   }
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-900">
+    <section className="py-20 bg-transparent pointer-events-auto">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16 reveal-element">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Featured <span className="text-gradient">Projects</span>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="text-gradient">Projects</span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Explore my latest work from GitHub, showcasing real-world applications and innovative solutions
@@ -135,7 +135,7 @@ export function ProjectsPreview() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="card-3d bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-xl transition-all duration-300"
+              className="card-3d bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 hover:shadow-xl transition-all duration-300"
             >
               <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg mb-4 overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -212,13 +212,7 @@ export function ProjectsPreview() {
           ))}
         </div>
         
-        <div className="text-center mt-12 reveal-element">
-          <Link href="/projects">
-            <Button size="lg" variant="outline" className="px-6 py-3">
-              View All Projects
-            </Button>
-          </Link>
-        </div>
+        {/* Removed "View All Projects" button since all projects are already shown on this page */}
       </div>
     </section>
   )

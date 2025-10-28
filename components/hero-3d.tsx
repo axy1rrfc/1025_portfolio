@@ -1,8 +1,9 @@
 'use client'
 
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Stars } from '@react-three/drei'
+import { OrbitControls } from '@react-three/drei'
 import { InteractiveParticlesAdaptive } from './interactive-particles-adaptive'
+import { BackgroundStarsAdaptive } from './background-stars-adaptive'
 
 export function Hero3D() {
   return (
@@ -17,16 +18,8 @@ export function Hero3D() {
         
         <InteractiveParticlesAdaptive />
         
-        {/* Original beautiful stars with slight color variation */}
-        <Stars 
-          radius={100} 
-          depth={50} 
-          count={5000} 
-          factor={4} 
-          saturation={0.3}
-          fade 
-          speed={1} 
-        />
+        {/* Theme-aware stars: bright in dark mode, dark in light mode */}
+        <BackgroundStarsAdaptive />
         
         <OrbitControls
           enableZoom={false}

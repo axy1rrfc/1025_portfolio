@@ -1,12 +1,10 @@
 'use client'
 
-import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Button } from './ui/button'
 
 export function ContactCTA() {
   return (
-    <section className="py-20 bg-gray-900 text-white dark:bg-gray-950">
+    <section className="py-20 bg-gray-900/60 dark:bg-gray-950/60 backdrop-blur-md text-white pointer-events-auto">
       <div className="max-w-7xl mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -19,11 +17,22 @@ export function ContactCTA() {
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
             Ready to bring your ideas to life? Let's collaborate on your next project and create something extraordinary together.
           </p>
-          <Link href="/contact">
-            <Button size="lg" className="px-8 py-4 text-lg bg-blue-600 hover:bg-blue-700">
-              Start a Conversation
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a 
+              href="mailto:your.email@example.com" 
+              className="px-8 py-4 text-lg bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+            >
+              Email Me
+            </a>
+            <a 
+              href="https://linkedin.com" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-4 text-lg border-2 border-white/30 hover:border-white/50 text-white rounded-lg transition-colors font-medium"
+            >
+              LinkedIn
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>

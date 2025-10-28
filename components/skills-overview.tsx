@@ -67,7 +67,7 @@ export function SkillsOverview() {
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
 
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section className="py-20 bg-transparent pointer-events-auto">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 reveal-element">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
@@ -85,7 +85,7 @@ export function SkillsOverview() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="card-3d bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
+              className="card-3d bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
               onClick={() => setSelectedSkill(skill)}
             >
               <div className="flex items-center mb-4">
