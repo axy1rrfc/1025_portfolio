@@ -19,6 +19,13 @@ export const metadata: Metadata = {
   description: 'Modern portfolio showcasing full-stack development expertise with 3D graphics and interactive experiences',
   keywords: ['portfolio', 'full-stack', 'developer', 'react', 'nextjs', 'three.js'],
   authors: [{ name: 'Your Name' }],
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
   openGraph: {
     title: 'Portfolio - Full Stack Developer',
     description: 'Modern portfolio showcasing full-stack development expertise',

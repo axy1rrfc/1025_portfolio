@@ -11,31 +11,53 @@ const navigation = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
   { name: 'Projects', href: '#projects' },
+  { name: 'Skills', href: '#skills' },
 ]
 
 const socialLinks = [
-  { name: 'Discord', icon: SiDiscord, href: 'https://discord.com/users/YOUR_DISCORD_ID' },
-  { name: 'GitHub', icon: SiGithub, href: 'https://github.com/YOUR_USERNAME' },
-  { name: 'LinkedIn', icon: SiLinkedin, href: 'https://linkedin.com/in/YOUR_PROFILE' },
+  { name: 'Discord', icon: SiDiscord, href: 'https://discord.com/users/321288032110116869' },
+  { name: 'GitHub', icon: SiGithub, href: 'https://github.com/axy1rrfc' },
+  { name: 'LinkedIn', icon: SiLinkedin, href: 'https://www.linkedin.com/in/alex-yu-n44/' },
 ]
 
 export function Navigation() {
   const [isOpen, setIsOpen] = React.useState(false)
   const [activeSection, setActiveSection] = React.useState('home')
 
-  // Smooth scroll to section
+  // Smooth scroll to section with perfect viewport alignment
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      setIsOpen(false)
-    }
+    setIsOpen(false)
+    
+    // Temporarily disable scroll-snap to prevent interference
+    const html = document.documentElement
+    const originalScrollSnapType = html.style.scrollSnapType
+    html.style.scrollSnapType = 'none'
+    
+    // Use requestAnimationFrame to ensure DOM is ready and layout is stable
+    requestAnimationFrame(() => {
+      const element = document.querySelector(href) as HTMLElement
+      if (element) {
+        // Get the absolute position of the section from the document top
+        const elementTop = element.offsetTop
+        
+        // Scroll to position the section at the very top of the viewport
+        window.scrollTo({
+          top: elementTop,
+          behavior: 'smooth'
+        })
+        
+        // Re-enable scroll-snap after scrolling completes (estimated 1 second)
+        setTimeout(() => {
+          html.style.scrollSnapType = originalScrollSnapType || 'y proximity'
+        }, 1000)
+      }
+    })
   }
 
   // Track active section on scroll
   React.useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'about', 'projects']
+      const sections = ['home', 'about', 'projects', 'skills']
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -69,9 +91,9 @@ export function Navigation() {
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
 
-            {/* Social Icons - No spacing between them */}
-            <div className="flex items-center">
-              {socialLinks.map((social) => {
+            {/* Social Icons - Unified block with rounded edges */}
+            <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+              {socialLinks.map((social, index) => {
                 const Icon = social.icon
                 return (
                   <a
@@ -79,7 +101,10 @@ export function Navigation() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors shadow-md"
+                    className={cn(
+                      "p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors",
+                      index !== socialLinks.length - 1 && "border-r border-gray-300 dark:border-gray-700"
+                    )}
                     aria-label={social.name}
                   >
                     <Icon className="w-5 h-5" />
@@ -103,15 +128,15 @@ export function Navigation() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="absolute left-4 mt-2 w-48 overflow-hidden"
+              className="absolute left-4 mt-2 w-auto overflow-hidden"
             >
-              <div className="py-2 space-y-1 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 shadow-lg">
+              <div className="py-1 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 shadow-lg">
                 {navigation.map((item) => (
                   <button
                     key={item.name}
                     onClick={() => scrollToSection(item.href)}
                     className={cn(
-                      'block w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors',
+                      'block w-full text-left px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors whitespace-nowrap',
                       activeSection === item.href.slice(1) && 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
                     )}
                   >

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9333ea;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Left bracket < -->
+  <path d="M8 10 L4 16 L8 22 L9.5 21 L6.5 16 L9.5 11 Z" fill="#000000" />
+  
+  <!-- Right bracket > -->
+  <path d="M24 10 L22.5 11 L25.5 16 L22.5 21 L24 22 L28 16 Z" fill="#000000" />
+  
+  <!-- Letter A with gradient -->
+  <path d="M16 9 L12 23 L14 23 L14.8 20 L17.2 20 L18 23 L20 23 L16 9 Z M15.3 18.5 L16 15 L16.7 18.5 Z" fill="url(#gradient)" />
+</svg>
+

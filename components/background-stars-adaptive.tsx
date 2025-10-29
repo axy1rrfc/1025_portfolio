@@ -37,10 +37,57 @@ function UnifiedBackgroundStars() {
     return { positions: posArray, sizes }
   }, []) // No dependencies - only generate once!
   
-  // Generate target colors based on theme - can change without shifting positions
-  const targetColors = useMemo(() => {
+  // Store random values for each star to maintain consistency
+  const starRandomValues = useMemo(() => {
+    return Array.from({ length: starCount }, () => ({
+      isColored: Math.random() > 0.85,
+      colorType: Math.random(),
+      r: Math.random(),
+      g: Math.random(),
+      b: Math.random(),
+      brightness: 0.8 + Math.random() * 0.2,
+      darkness: 0.1 + Math.random() * 0.2
+    }))
+  }, [])
+  
+  // Generate colors based on theme
+  const getColorsForTheme = (isDark: boolean) => {
     const colorsArray = new Float32Array(starCount * 3)
     
+    for (let i = 0; i < starCount; i++) {
+      const rand = starRandomValues[i]
+      
+      // Use same dark colors for both light and dark mode
+      if (rand.isColored) {
+        if (rand.colorType < 0.5) {
+          // Very dark blue
+          colorsArray[i * 3] = 0.05 + rand.r * 0.1
+          colorsArray[i * 3 + 1] = 0.1 + rand.g * 0.15
+          colorsArray[i * 3 + 2] = 0.3 + rand.b * 0.2
+        } else {
+          // Very dark purple
+          colorsArray[i * 3] = 0.2 + rand.r * 0.1
+          colorsArray[i * 3 + 1] = 0.05 + rand.g * 0.1
+          colorsArray[i * 3 + 2] = 0.3 + rand.b * 0.15
+        }
+      } else {
+        // Very dark gray/black stars
+        colorsArray[i * 3] = rand.darkness
+        colorsArray[i * 3 + 1] = rand.darkness
+        colorsArray[i * 3 + 2] = rand.darkness
+      }
+    }
+    
+    return colorsArray
+  }
+  
+  // Initial colors based on current theme
+  const initialColors = useMemo(() => {
+    return getColorsForTheme(isDark)
+  }, []) // Only generate once on mount
+  
+  // Generate target colors based on theme - can change without shifting positions
+  const targetColors = useMemo(() => {
     // Store previous colors before generating new ones
     if (starsRef.current?.geometry.attributes.color) {
       const currentColors = starsRef.current.geometry.attributes.color.array as Float32Array
@@ -51,67 +98,7 @@ function UnifiedBackgroundStars() {
       colorTransitionProgress.current = 1
     }
     
-    for (let i = 0; i < starCount; i++) {
-      const isColored = Math.random() > 0.85
-      
-      if (isDark) {
-        // Bright colors for dark mode
-        if (isColored) {
-          const colorType = Math.random()
-          if (colorType < 0.25) {
-            // Blue stars
-            colorsArray[i * 3] = 0.5 + Math.random() * 0.3
-            colorsArray[i * 3 + 1] = 0.7 + Math.random() * 0.3
-            colorsArray[i * 3 + 2] = 1
-          } else if (colorType < 0.5) {
-            // Red/Orange stars
-            colorsArray[i * 3] = 1
-            colorsArray[i * 3 + 1] = 0.4 + Math.random() * 0.4
-            colorsArray[i * 3 + 2] = 0.2 + Math.random() * 0.3
-          } else if (colorType < 0.75) {
-            // Purple/Pink stars
-            colorsArray[i * 3] = 0.8 + Math.random() * 0.2
-            colorsArray[i * 3 + 1] = 0.3 + Math.random() * 0.3
-            colorsArray[i * 3 + 2] = 0.9 + Math.random() * 0.1
-          } else {
-            // Green/Cyan stars
-            colorsArray[i * 3] = 0.3 + Math.random() * 0.3
-            colorsArray[i * 3 + 1] = 0.8 + Math.random() * 0.2
-            colorsArray[i * 3 + 2] = 0.7 + Math.random() * 0.3
-          }
-        } else {
-          // White stars
-          const brightness = 0.8 + Math.random() * 0.2
-          colorsArray[i * 3] = brightness
-          colorsArray[i * 3 + 1] = brightness
-          colorsArray[i * 3 + 2] = brightness
-        }
-      } else {
-        // Dark colors for light mode
-        if (isColored) {
-          const colorType = Math.random()
-          if (colorType < 0.5) {
-            // Very dark blue
-            colorsArray[i * 3] = 0.05 + Math.random() * 0.1
-            colorsArray[i * 3 + 1] = 0.1 + Math.random() * 0.15
-            colorsArray[i * 3 + 2] = 0.3 + Math.random() * 0.2
-          } else {
-            // Very dark purple
-            colorsArray[i * 3] = 0.2 + Math.random() * 0.1
-            colorsArray[i * 3 + 1] = 0.05 + Math.random() * 0.1
-            colorsArray[i * 3 + 2] = 0.3 + Math.random() * 0.15
-          }
-        } else {
-          // Very dark gray/black stars
-          const darkness = 0.1 + Math.random() * 0.2
-          colorsArray[i * 3] = darkness
-          colorsArray[i * 3 + 1] = darkness
-          colorsArray[i * 3 + 2] = darkness
-        }
-      }
-    }
-    
-    return colorsArray
+    return getColorsForTheme(isDark)
   }, [isDark, currentTheme]) // Only regenerate colors when theme changes
   
   // Slow rotation and smooth color transition
@@ -155,7 +142,7 @@ function UnifiedBackgroundStars() {
         <bufferAttribute
           attach="attributes-color"
           count={starCount}
-          array={targetColors}
+          array={initialColors}
           itemSize={3}
         />
         <bufferAttribute
@@ -167,9 +154,9 @@ function UnifiedBackgroundStars() {
       </bufferGeometry>
       <pointsMaterial
         size={0.4}
-        vertexColors
+        vertexColors={true}
         transparent
-        opacity={0.85}
+        opacity={0.6}
         sizeAttenuation
         blending={THREE.NormalBlending}
       />

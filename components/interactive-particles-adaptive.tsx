@@ -57,9 +57,40 @@ export function InteractiveParticlesAdaptive() {
     return posArray
   }, []) // No dependencies - only generate once!
   
+  // Store random values for each particle to maintain consistency
+  const particleRandomValues = useMemo(() => {
+    return Array.from({ length: particleCount }, () => ({
+      r: Math.random(),
+      g: Math.random(),
+      b: Math.random()
+    }))
+  }, [])
+  
+  // Generate colors based on current theme
+  const getColorsForTheme = (isDark: boolean) => {
+    const colorsArray = new Float32Array(particleCount * 3)
+    
+    for (let i = 0; i < particleCount; i++) {
+      const rand = particleRandomValues[i]
+      
+      // Use same dark blue/purple colors for both light and dark mode
+      colorsArray[i * 3] = 0.05 + rand.r * 0.1    // R: 0.05-0.15 (very dark)
+      colorsArray[i * 3 + 1] = 0.1 + rand.g * 0.15 // G: 0.1-0.25 (very dark)
+      colorsArray[i * 3 + 2] = 0.3 + rand.b * 0.2  // B: 0.3-0.5 (darker blue)
+    }
+    
+    return colorsArray
+  }
+  
+  // Initial colors based on current theme
+  const initialColors = useMemo(() => {
+    // Default to dark if theme is undefined (during initial load)
+    const isDark = currentTheme === 'dark' || currentTheme === undefined
+    return getColorsForTheme(isDark)
+  }, []) // Only generate once on mount
+  
   // Generate target colors based on theme
   const targetColors = useMemo(() => {
-    const colorsArray = new Float32Array(particleCount * 3)
     // Default to dark if theme is undefined (during initial load)
     const isDark = currentTheme === 'dark' || currentTheme === undefined
     
@@ -73,21 +104,7 @@ export function InteractiveParticlesAdaptive() {
       colorTransitionProgress.current = 1
     }
     
-    for (let i = 0; i < particleCount; i++) {
-      if (isDark) {
-        // Brighter colors for dark mode
-        colorsArray[i * 3] = 0.5 + Math.random() * 0.5     // R: 0.5-1.0
-        colorsArray[i * 3 + 1] = 0.7 + Math.random() * 0.3 // G: 0.7-1.0
-        colorsArray[i * 3 + 2] = 1                          // B: 1.0
-      } else {
-        // Very dark, highly visible colors for light mode
-        colorsArray[i * 3] = 0.05 + Math.random() * 0.1    // R: 0.05-0.15 (very dark)
-        colorsArray[i * 3 + 1] = 0.1 + Math.random() * 0.15 // G: 0.1-0.25 (very dark)
-        colorsArray[i * 3 + 2] = 0.3 + Math.random() * 0.2  // B: 0.3-0.5 (darker blue)
-      }
-    }
-    
-    return colorsArray
+    return getColorsForTheme(isDark)
   }, [currentTheme]) // Only regenerate colors when theme changes
 
   // Animation - only react to mouse when clicked
@@ -145,15 +162,15 @@ export function InteractiveParticlesAdaptive() {
         <bufferAttribute
           attach="attributes-color"
           count={particleCount}
-          array={targetColors}
+          array={initialColors}
           itemSize={3}
         />
       </bufferGeometry>
       <pointsMaterial
         size={0.07}
-        vertexColors
+        vertexColors={true}
         transparent
-        opacity={0.95}
+        opacity={0.7}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
       />
