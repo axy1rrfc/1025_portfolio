@@ -10,6 +10,7 @@ export interface GitHubProject {
   created_at: string;
   updated_at: string;
   topics: string[];
+  image?: string; // Optional project image
   size: number;
   license: {
     spdx_id: string;

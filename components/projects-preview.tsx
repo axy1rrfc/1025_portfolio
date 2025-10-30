@@ -63,18 +63,9 @@ export function ProjectsPreview() {
 
   const fetchProjects = async () => {
     try {
-      // Using a demo username - replace with your GitHub username
-      const response = await fetch('https://api.github.com/users/octocat/repos?sort=updated&per_page=6')
-      if (response.ok) {
-        const data = await response.json()
-        setProjects(data)
-      } else {
-        // Fallback to mock data
-        setProjects(getMockProjects())
-      }
-    } catch (error) {
-      console.error('Error fetching projects:', error)
-      setProjects(getMockProjects())
+      // Use manual projects locally for consistency and sort chronologically (oldest -> newest)
+      const manual = getMockProjects().sort((a, b) => new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime())
+      setProjects(manual)
     } finally {
       setLoading(false)
     }
@@ -83,51 +74,103 @@ export function ProjectsPreview() {
   const getMockProjects = (): GitHubProject[] => [
     {
       id: 1,
-      name: '3D-Portfolio-Website',
-      full_name: 'user/3D-Portfolio-Website',
-      description: 'Interactive portfolio with Three.js animations and modern design',
-      html_url: 'https://github.com/user/3d-portfolio',
-      language: 'JavaScript',
-      stargazers_count: 156,
-      forks_count: 42,
-      created_at: '2024-01-15T10:30:00Z',
-      updated_at: '2024-10-20T14:30:00Z',
-      topics: ['threejs', 'portfolio', 'webgl', 'animation'],
+      name: 'Folio',
+      description: 'A modern portfolio website with interactive animations',
+      html_url: 'https://github.com/axy1rrfc/1025_portfolio',
+      image: '/projects/folio.png',
+      language: 'TypeScript',
+      topics: ['react', 'nextjs', 'tailwind', 'framer-motion'],
+      stargazers_count: 0,
+      forks_count: 0,
+      updated_at: '2025-10-15',
+      full_name: 'axy1rrfc/1025_portfolio',
+      created_at: '2024-10-15T10:30:00Z',
       size: 2456,
       license: { spdx_id: 'MIT' },
-      owner: { login: 'user', avatar_url: 'https://github.com/user.png' }
+      owner: { login: 'axy1rrfc', avatar_url: 'https://github.com/axy1rrfc.png' }
     },
     {
       id: 2,
-      name: 'React-Dashboard-Pro',
-      full_name: 'user/React-Dashboard-Pro',
-      description: 'Full-stack dashboard application with real-time data visualization',
-      html_url: 'https://github.com/user/react-dashboard',
-      language: 'TypeScript',
-      stargazers_count: 324,
-      forks_count: 89,
-      created_at: '2023-11-08T15:45:00Z',
-      updated_at: '2024-10-18T09:15:00Z',
-      topics: ['react', 'typescript', 'dashboard', 'charts'],
-      size: 4532,
+      name: 'BallQ',
+      description: 'Full-stack web app where players can upload their Veo/Spideo game footage and get actionable insights into their game. Build a FIFA-style player card, join a club, and share your profile with recruiters. Built to make soccer coaching more affordable and equitable for all athletes. Built with @hershb',
+      html_url: 'https://github.com/axy1rrfc',
+      image: '/projects/ballq.png',
+      language: 'Python',
+      topics: ['flask', 'react', 'computer-vision', 'sports-analytics', 'python', 'aws', 'mongodb'],
+      stargazers_count: 2,
+      forks_count: 13,
+      updated_at: '2025-10-25',
+      full_name: 'axy1rrfc/ballq',
+      created_at: '2024-06-01T10:30:00Z',
+      size: 8900,
       license: { spdx_id: 'MIT' },
-      owner: { login: 'user', avatar_url: 'https://github.com/user.png' }
+      owner: { login: 'axy1rrfc', avatar_url: 'https://github.com/axy1rrfc.png' }
     },
     {
       id: 3,
-      name: 'Microservices-Architecture',
-      full_name: 'user/Microservices-Architecture',
-      description: 'Scalable microservices system with Docker and Kubernetes',
-      html_url: 'https://github.com/user/microservices',
+      name: 'RUAlergic',
+      description: 'Full-stack web app where users can upload pictures of food and detect possible allergens. Built with @hershb & @natea at the Rutgers Spring 24 Hackathon in Busch Dining Hall',
+      html_url: 'https://github.com/axy1rrfc/hackRUproject',
       language: 'Python',
-      stargazers_count: 267,
-      forks_count: 73,
-      created_at: '2023-09-22T08:20:00Z',
-      updated_at: '2024-09-30T16:45:00Z',
-      topics: ['python', 'docker', 'kubernetes', 'microservices'],
-      size: 6789,
-      license: { spdx_id: 'Apache-2.0' },
-      owner: { login: 'user', avatar_url: 'https://github.com/user.png' }
+      topics: ['flask', 'tensorflow', 'computer-vision', 'hackathon', 'react', 'tailwind'],
+      stargazers_count: 2,
+      forks_count: 0,
+      updated_at: '2025-02-25',
+      full_name: 'axy1rrfc/hackRUproject',
+      created_at: '2024-03-20T10:30:00Z',
+      size: 3200,
+      license: { spdx_id: 'MIT' },
+      owner: { login: 'axy1rrfc', avatar_url: 'https://github.com/axy1rrfc.png' }
+    },
+    {
+      id: 4,
+      name: 'Team Donation Tracker',
+      description: 'Inspired by @colinc\'s Beautiful Soup HTML parser, the Team Donation Tracker uses Selenium to dynamically scrape web pages and update Excel spreadsheets. This script calculates team totals to keep members motivated and engaged with donation goals',
+      html_url: 'https://github.com/axy1rrfc/rudmTeamScrape',
+      image: '/projects/teamtracker.png',
+      language: 'Python',
+      topics: ['selenium', 'automation', 'excel', 'python'],
+      stargazers_count: 2,
+      forks_count: 0,
+      updated_at: '2025-04-25',
+      full_name: 'axy1rrfc/rudmTeamScrape',
+      created_at: '2024-04-01T10:30:00Z',
+      size: 1200,
+      license: { spdx_id: 'MIT' },
+      owner: { login: 'axy1rrfc', avatar_url: 'https://github.com/axy1rrfc.png' }
+    },
+    {
+      id: 5,
+      name: 'Face/Digit Detection Testing',
+      description: 'Implemented a perceptron and custom neural network to compare the behavior of different detection algorithms for face and digit recognition',
+      html_url: 'https://github.com/axy1rrfc/digitAndFacialRecognition',
+      image: '/projects/digitclassification.png',
+      language: 'Python',
+      topics: ['machine-learning', 'neural-networks', 'perceptron', 'python'],
+      stargazers_count: 2,
+      forks_count: 0,
+      updated_at: '2025-05-25',
+      full_name: 'axy1rrfc/digitAndFacialRecognition',
+      created_at: '2024-02-15T10:30:00Z',
+      size: 2800,
+      license: { spdx_id: 'MIT' },
+      owner: { login: 'axy1rrfc', avatar_url: 'https://github.com/axy1rrfc.png' }
+    },
+    {
+      id: 6,
+      name: 'Android Pizza App',
+      description: 'Project that uses Java OOP to build an Android app in Android Studio, allowing users to create and order pizzas',
+      html_url: 'https://github.com/axy1rrfc/project4',
+      language: 'Java',
+      topics: ['android', 'java', 'oop', 'mobile-app', 'android-studio'],
+      stargazers_count: 2,
+      forks_count: 0,
+      updated_at: '2025-11-25',
+      full_name: 'axy1rrfc/project4',
+      created_at: '2023-11-01T10:30:00Z',
+      size: 1800,
+      license: { spdx_id: 'MIT' },
+      owner: { login: 'axy1rrfc', avatar_url: 'https://github.com/axy1rrfc.png' }
     }
   ]
 
@@ -210,14 +253,22 @@ export function ProjectsPreview() {
                 {projects.slice(currentIndex, currentIndex + cardsPerView).map((project, index) => (
                   <div
                     key={project.id}
-                    className="card-3d bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 hover:shadow-xl transition-all duration-300 w-full max-w-xl"
+                    className="card-3d bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 hover:shadow-xl transition-all duration-300 w-full max-w-xl mx-auto"
                   >
-                    <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg mb-3 overflow-hidden relative max-h-48">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center">
-                          <span className="text-xl">💻</span>
+                    <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg mb-3 overflow-hidden relative max-h-48 mx-auto grid place-items-center p-2">
+                      {project.image ? (
+                        <img 
+                          src={project.image} 
+                          alt={project.name}
+                          className="block mx-auto max-w-full max-h-full object-contain object-center"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center">
+                            <span className="text-xl">💻</span>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                     
                     <div className="flex items-center mb-2">
@@ -237,13 +288,13 @@ export function ProjectsPreview() {
                       {project.name}
                     </h3>
                     
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-2">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
                       {project.description || 'No description available'}
                     </p>
                     
                     {project.topics && project.topics.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mb-3">
-                        {project.topics.slice(0, 3).map((topic) => (
+                      <div className="flex flex-wrap gap-1.5 mb-3">
+                        {project.topics.map((topic) => (
                           <span 
                             key={topic} 
                             className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded text-xs font-mono"
@@ -251,11 +302,6 @@ export function ProjectsPreview() {
                             {topic}
                           </span>
                         ))}
-                        {project.topics.length > 3 && (
-                          <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded text-xs">
-                            +{project.topics.length - 3}
-                          </span>
-                        )}
                       </div>
                     )}
                     
